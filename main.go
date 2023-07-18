@@ -16,5 +16,7 @@ func main() {
 
 		fmt.Println("Number of Ants :", numberOfAnts)
 		fmt.Println("Ant Farm :", antFarm)
+		paths := utils.FindPaths(antFarm)
+		utils.MoveAnts(paths)
 	}
 }
