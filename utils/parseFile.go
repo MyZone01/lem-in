@@ -6,9 +6,10 @@ import (
 	"lemin/model"
 	"log"
 	"os"
+	"strconv"
 )
 
-func ParseFile(fileName string) (string, model.AntFarm, bool) {
+func ParseFile(fileName string) (int, model.AntFarm, bool) {
 	readFile, err := os.Open(fileName)
 	if err != nil {
 		log.Fatal(err)
@@ -22,35 +23,41 @@ func ParseFile(fileName string) (string, model.AntFarm, bool) {
 	}
 
 	if len(lines) <= 0 {
-		return "", model.AntFarm{}, true
+		return 0, model.AntFarm{}, true
 	}
-	numberOfAnts := lines[0]
-	if numberOfAnts == "0" {
+	_numberOfAnts := lines[0]
+	if _numberOfAnts == "0" {
 		fmt.Println("No Ant")
-		return "", model.AntFarm{}, true
+		return 0, model.AntFarm{}, true
+	}
+
+	numberOfAnts, err := strconv.Atoi(_numberOfAnts)
+	if err != nil {
+		fmt.Println(err)
+		return 0, model.AntFarm{}, true
 	}
 
 	start, err := ReturnStart(lines)
 	if err != nil {
 		fmt.Println(err)
-		return "", model.AntFarm{}, true
+		return 0, model.AntFarm{}, true
 	}
 	end, err1 := ReturnEnd(lines)
 	if err1 != nil {
 		fmt.Println(err1)
-		return "", model.AntFarm{}, true
+		return 0, model.AntFarm{}, true
 	}
 
 	links, err2 := GetLink(lines)
 	if err2 != nil {
 		fmt.Println(err2)
-		return "", model.AntFarm{}, true
+		return 0, model.AntFarm{}, true
 	}
 
-	rooms, err := GetRooms(lines)
+	rooms, err := GetRooms(lines, start, end)
 	if err != nil {
 		fmt.Println(err)
-		return "", model.AntFarm{}, true
+		return 0, model.AntFarm{}, true
 	}
 
 	validRoom, err3 := GetValidRooms(rooms, links)

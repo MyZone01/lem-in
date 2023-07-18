@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"lemin/utils"
 	"os"
 )
@@ -13,10 +12,7 @@ func main() {
 		if shouldReturn {
 			return
 		}
-
-		fmt.Println("Number of Ants :", numberOfAnts)
-		fmt.Println("Ant Farm :", antFarm)
 		paths := utils.FindPaths(antFarm)
-		utils.MoveAnts(paths)
+		utils.MoveAnts(paths, numberOfAnts)
 	}
 }

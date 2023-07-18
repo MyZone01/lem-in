@@ -7,20 +7,15 @@ import (
 	"strings"
 )
 
-func GetRooms(tab []string) (map[string]model.Room, error) {
+func GetRooms(tab []string, start model.Room, end model.Room) (map[string]model.Room, error) {
 	tabFinal := map[string]model.Room{}
 	if len(tab) > 0 {
-		StartRoom, _ := ReturnStart(tab)
-		EndRoom, _ := ReturnEnd(tab)
-
 		tabFinal := map[string]model.Room{}
 
 		for _, val := range tab {
 			if IsRoom(val) {
-
 				if IsValidRoom(val) {
-
-					if MapStart(val) != StartRoom && MapEnd(val) != EndRoom {
+					if MapStart(val).Name != start.Name && MapEnd(val).Name != end.Name {
 						room := MappingRooms(val)
 						tabFinal[room.Name] = room
 					}
