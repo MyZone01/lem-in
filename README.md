@@ -54,3 +54,6 @@ Key functions:
 +   Pape Gondia Gueye
 +   Louis Sébastien Malack
 +   Serigne Saliou Mbacké Mbaye
+
+## LIVESHARE LINK
+https://prod.liveshare.vsengsaas.visualstudio.com/join?72B1043D8CAADA0BF8A08EC143D45E457EB3
