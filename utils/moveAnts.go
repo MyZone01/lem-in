@@ -5,43 +5,51 @@ import (
 	"lemin/model"
 )
 
+type antPosition struct {
+	pathIdx int
+	roomIdx int
+}
+
 func MoveAnts(paths []model.Path, numberOfAnts int) {
-	j := 0
+	currentPath := 0
+	antPositions := make(map[string]*antPosition)
 	for i := 0; i < numberOfAnts; i++ {
+		nextPath := (currentPath + 1) % len(paths)
 		ant := model.Ant{
 			Name: fmt.Sprintf("%d", i),
 		}
-		a := len(paths[j].Ants)
-		b := len(paths[j].Rooms)
+		currentPathValue := len(paths[currentPath].Ants) + len(paths[currentPath].Rooms)
+		nextPathValue := len(paths[nextPath].Ants) + len(paths[nextPath].Rooms)
 
-		d := len(paths[(j+1)%len(paths)].Ants)
-		e := len(paths[(j+1)%len(paths)].Rooms)
-
-		if a+b > e+d {
-			paths[j+1].Ants = append(paths[j+1].Ants, ant)
-			j = (j + 1) % len(paths)
+		if currentPathValue > nextPathValue {
+			paths[nextPath].Ants = append(paths[nextPath].Ants, ant)
+			currentPath = nextPath
 		} else {
-			paths[j].Ants = append(paths[j].Ants, ant)
+			paths[currentPath].Ants = append(paths[currentPath].Ants, ant)
 		}
-
+		i := len(paths[currentPath].Ants) - 1
+		if i != 0 {
+			i *= -1
+		}
+		antPositions[ant.Name] = &antPosition{currentPath, i}
 	}
 
-	moves := [][]string{}
-	for i := 0; i < numberOfAnts*len(paths); i++ {
-		moves = append(moves, make([]string, numberOfAnts))
-	}
-
-	for _, path := range paths {
-		for k := 0; k < len(path.Ants); k++ {
-			_moves := []string{}
-			for l := 0; l < len(path.Rooms); l++ {
-				_moves = append(_moves, fmt.Sprintf("L%v-%v ", path.Ants[k].Name, path.Rooms[l].Name))
+	for {
+		finished := true
+		for antName, pos := range antPositions {
+			if pos.roomIdx >= 0 && pos.roomIdx < len(paths[pos.pathIdx].Rooms) {
+				room := paths[pos.pathIdx].Rooms[pos.roomIdx]
+				fmt.Printf("L%s-%s ", antName, room.Name)
+				pos.roomIdx++
+				finished = false
+			} else {
+				antPositions[antName].roomIdx++
 			}
-			moves = append(moves, _moves)
 		}
-	}
-
-	for _, v := range moves {
-		fmt.Println(v)
+		if finished {
+			break
+		} else {
+			fmt.Println()
+		}
 	}
 }
