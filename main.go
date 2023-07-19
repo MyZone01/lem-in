@@ -51,9 +51,6 @@ func main() {
 			return
 		}
 
-		fmt.Println("End :", End)
-		fmt.Println("Start :", Start)
-
 		//Recup the Links
 
 		Links, err2 := utils.GetLink(lines)
@@ -63,7 +60,7 @@ func main() {
 			return
 		}
 
-		fmt.Println("Links :" , Links )
+		
 
 		//Recup The Rooms
 	
@@ -74,22 +71,17 @@ func main() {
 			return
 		}
 
-		fmt.Println("Rooms :" , Rooms)
-
-		// Get Valid Rooms
-
-		ValidRoom, err3 := utils.GetValidRooms(Rooms, Links)
-
-		if err3 != nil {
-			fmt.Println(err3)
+		if err != nil {
+			fmt.Println(err)
+			return
 		}
+		str := utils.FindPaths(Start.Name,End.Name,Links,Rooms)
+		//RangePaths(str)
+		// fmt.Println("First Paths : ", First)
+		for _, val := range str {
+			fmt.Println(val)
 
-		fmt.Println("Valid Rooms : " , ValidRoom)
 		}
-		
-		
+		}
 	}
-
-
-
 }

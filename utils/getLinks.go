@@ -46,8 +46,8 @@ func Mapping(s string) model.Link {
 	ss := strings.Split(s, "-")
 
 	data := model.Link {
-		X_link: ss[0],
-		Y_link: ss[1],
+		From: ss[0],
+		To: ss[1],
 	}
 
 	return data

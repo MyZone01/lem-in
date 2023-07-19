@@ -20,7 +20,7 @@ func GetValidRooms(Rooms []model.Room, Links []model.Link) ([]model.Room, error)
 
 func GoodRoom(Room model.Room, Links []model.Link) bool {
 	for _, val := range Links {
-		if val.X_link == Room.Name || val.Y_link == Room.Name {
+		if val.From == Room.Name || val.To == Room.Name {
 			return true
 		}
 	}
