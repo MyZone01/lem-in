@@ -18,8 +18,11 @@ func ParseFile(fileName string) (int, model.AntFarm, bool) {
 	fileScanner := bufio.NewScanner(readFile)
 	fileScanner.Split(bufio.ScanLines)
 	var lines []string
+	fileContent := ""
 	for fileScanner.Scan() {
-		lines = append(lines, fileScanner.Text())
+		_text := fileScanner.Text()
+		lines = append(lines, _text)
+		fileContent += _text + "\n"
 	}
 
 	if len(lines) <= 0 {
@@ -74,5 +77,7 @@ func ParseFile(fileName string) (int, model.AntFarm, bool) {
 		Rooms: validRoom,
 		Links: links,
 	}
+
+	fmt.Println(fileContent)
 	return numberOfAnts, antFarm, false
 }

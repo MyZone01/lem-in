@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"lemin/model"
+	"strings"
 )
 
 type antPosition struct {
@@ -16,7 +17,7 @@ func MoveAnts(paths []model.Path, numberOfAnts int) {
 	for i := 0; i < numberOfAnts; i++ {
 		nextPath := (currentPath + 1) % len(paths)
 		ant := model.Ant{
-			Name: fmt.Sprintf("%d", i),
+			Name: fmt.Sprintf("%d", i+1),
 		}
 		currentPathValue := len(paths[currentPath].Ants) + len(paths[currentPath].Rooms)
 		nextPathValue := len(paths[nextPath].Ants) + len(paths[nextPath].Rooms)
@@ -34,12 +35,13 @@ func MoveAnts(paths []model.Path, numberOfAnts int) {
 		antPositions[ant.Name] = &antPosition{currentPath, i}
 	}
 
+	moves := ""
 	for {
 		finished := true
 		for antName, pos := range antPositions {
 			if pos.roomIdx >= 0 && pos.roomIdx < len(paths[pos.pathIdx].Rooms) {
 				room := paths[pos.pathIdx].Rooms[pos.roomIdx]
-				fmt.Printf("L%s-%s ", antName, room.Name)
+				moves += fmt.Sprintf("L%s-%s ", antName, room.Name)
 				pos.roomIdx++
 				finished = false
 			} else {
@@ -49,7 +51,10 @@ func MoveAnts(paths []model.Path, numberOfAnts int) {
 		if finished {
 			break
 		} else {
-			fmt.Println()
+			moves += "\n"
 		}
 	}
+
+	fmt.Println(moves)
+	fmt.Println("🐜🐜 We have :", len(strings.Split(moves, "\n"))-1, " turns")
 }
