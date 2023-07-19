@@ -52,10 +52,13 @@ func ParseFile(fileName string) (int, model.AntFarm, bool) {
 	}
 
 	links, err2 := GetLink(lines)
+
 	if err2 != nil {
 		fmt.Println(err2)
 		return 0, model.AntFarm{}, true
 	}
+
+	links = FilterLinks(links)
 
 	rooms, err := GetRooms(lines, start, end)
 	if err != nil {
