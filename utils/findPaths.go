@@ -3,44 +3,61 @@ package utils
 import "lemin/model"
 
 func FindPaths(antFarm model.AntFarm) []model.Path {
-	visited := make(map[string]bool)
-	paths := [][]string{}
+    visited := make(map[string]bool)
+    paths := [][]string{}
 
-	// Fonction récursive pour trouver les chemins
-	var findPathsRecursive func(currentRoom string, path []string)
-	findPathsRecursive = func(currentRoom string, path []string) {
-		// Marquer la salle actuelle comme visitée
-		visited[currentRoom] = true
+    // Recursive function to find paths
+    var findPathsRecursive func(currentRoom string, path []string)
+    findPathsRecursive = func(currentRoom string, path []string) {
+        visited[currentRoom] = true
+        path = append(path, currentRoom)
+        if currentRoom == antFarm.End.Name {
+            newPath := make([]string, len(path))
+            copy(newPath, path)
 
-		// Ajouter la salle actuelle au chemin
-		path = append(path, currentRoom)
+            // Check if newPath shares any room with existing paths
+            newPathHasSharedRoom := false
+            for _, existingPath := range paths {
+                for _, room := range newPath {
+                    if contains(existingPath, room) {
+                        newPathHasSharedRoom = true
+                        break
+                    }
+                }
+                if newPathHasSharedRoom {
+                    break
+                }
+            }
 
-		// Si la salle actuelle est la salle d'arrivée, ajouter le chemin complet à la liste des chemins
-		if currentRoom == antFarm.End.Name {
-			newPath := make([]string, len(path))
-			copy(newPath, path)
-			paths = append(paths, newPath)
-		} else {
-			// Parcourir les tunnels sortants de la salle actuelle
-			for _, tunnel := range antFarm.Links {
-				if tunnel.From == currentRoom && !visited[tunnel.To] {
-					// Appel récursif pour la salle de destination du tunnel
-					findPathsRecursive(tunnel.To, path)
-				} else if tunnel.To == currentRoom && !visited[tunnel.From] {
-					// Appel récursif pour la salle de destination du tunnel
-					findPathsRecursive(tunnel.From, path)
-				}
-			}
-		}
+            // Only append newPath if it does not share any room with existing paths
+            if !newPathHasSharedRoom {
+                paths = append(paths, newPath)
+            }
+        } else {
+            for _, tunnel := range antFarm.Links {
+                if tunnel.From == currentRoom && !visited[tunnel.To] {
+                    findPathsRecursive(tunnel.To, path)
+                } else if tunnel.To == currentRoom && !visited[tunnel.From] {
+                    findPathsRecursive(tunnel.From, path)
+                }
+            }
+        }
+        visited[currentRoom] = false
+    }
 
-		// Marquer la salle actuelle comme non visitée après avoir exploré toutes les options
-		visited[currentRoom] = false
-	}
+    findPathsRecursive(antFarm.Start.Name, []string{})
+    RangePaths(paths)
+    return StringToRoom(paths, antFarm)
+}
 
-	// Appeler la fonction récursive avec la salle de départ et un chemin vide
-	findPathsRecursive(antFarm.Start.Name, []string{})
-	RangePaths(paths)
-	return StringToRoom(paths, antFarm)
+// Contains checks if a slice contains a string
+func contains(slice []string, str string) bool {
+    for _, item := range slice {
+        if item == str {
+            return true
+        }
+    }
+    return false
 }
 
 func RangePaths(Paths [][]string) {
