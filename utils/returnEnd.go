@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-func ReturnEnd(tab []string) (model.End, error) {
-	response := model.End{}
+func ReturnEnd(tab []string) (model.Room, error) {
+	response := model.Room{}
 	if len(tab) > 0 {
-		response := model.End{}
+		response := model.Room{}
 		for i := 0; i < len(tab); i++ {
 			if tab[i] == "##end" {
 				if i+1 != len(tab) {
@@ -17,21 +17,21 @@ func ReturnEnd(tab []string) (model.End, error) {
 
 					return response, nil
 				} else {
-					return response, errors.New("Invalid Syntax")
+					return response, errors.New("invalid syntax")
 				}
 			}
 		}
 	}
-	return response, errors.New("Empty table")
+	return response, errors.New("empty table")
 }
 
-func MapEnd(s string) model.End {
+func MapEnd(s string) model.Room {
 	ss := strings.Split(s, " ")
 
-	tab := model.End {
+	tab := model.Room{
 		Name: ss[0],
-		XEndRoom: ss[1],
-		YEndRoom: ss[2],
+		X:    ss[1],
+		Y:    ss[2],
 	}
 
 	return tab

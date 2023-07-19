@@ -2,6 +2,11 @@ package model
 
 type Room struct {
 	Name string
-	X_room string
-	Y_room string
+	X    string
+	Y    string
+}
+
+type Path struct {
+	Rooms []Room
+	Ants  []Ant
 }
