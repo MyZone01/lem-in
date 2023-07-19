@@ -61,6 +61,8 @@ func ParseFile(fileName string) (int, model.AntFarm, bool) {
 	}
 
 	validRoom, err3 := GetValidRooms(rooms, links)
+	validRoom[start.Name] = start
+	validRoom[end.Name] = end
 
 	if err3 != nil {
 		fmt.Println(err3)

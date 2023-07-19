@@ -65,6 +65,7 @@ func FindPaths(antFarm model.AntFarm) []model.Path {
 	RangePaths(paths)
 	return StringToRoom(paths, antFarm.Rooms)
 }
+
 func RangePaths(Paths [][]string) {
 	for i := 0; i < len(Paths)-1; {
 		if len(Paths[i]) > len(Paths[i+1]) {
@@ -78,6 +79,7 @@ func RangePaths(Paths [][]string) {
 
 	}
 }
+
 func StringToRoom(Paths [][]string, Rooms map[string]model.Room) []model.Path {
 	var PathsRoom []model.Path
 
