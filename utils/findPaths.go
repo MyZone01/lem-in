@@ -43,31 +43,4 @@ func FindPaths(antFarm model.AntFarm) []model.Path {
 	return StringToRoom(paths, antFarm)
 }
 
-func RangePaths(Paths [][]string) {
-	for i := 0; i < len(Paths)-1; {
-		if len(Paths[i]) > len(Paths[i+1]) {
-			tmp := Paths[i]
-			Paths[i] = Paths[i+1]
-			Paths[i+1] = tmp
-			i = 0
-		} else {
-			i++
-		}
 
-	}
-}
-
-func StringToRoom(Paths [][]string, antFarm model.AntFarm) []model.Path {
-	var PathsRoom []model.Path
-
-	for _, path := range Paths {
-		_rooms := []model.Room{}
-		for _, room := range path {
-			if room != antFarm.Start.Name {
-				_rooms = append(_rooms, antFarm.Rooms[room])
-			}
-		}
-		PathsRoom = append(PathsRoom, model.Path{Rooms: _rooms})
-	}
-	return PathsRoom
-}
