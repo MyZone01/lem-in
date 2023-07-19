@@ -25,6 +25,7 @@ func findPathsRecursive(currentRoom string, path []string, visited map[string]bo
 
 	visited[currentRoom] = false
 }
+
 func FindPaths(antFarm model.AntFarm) []model.Path {
 	visited := make(map[string]bool)
 	paths := [][]string{}
@@ -63,7 +64,7 @@ func FindPaths(antFarm model.AntFarm) []model.Path {
 	// Appeler la fonction récursive avec la salle de départ et un chemin vide
 	findPathsRecursive(antFarm.Start.Name, []string{})
 	RangePaths(paths)
-	return StringToRoom(paths, antFarm.Rooms)
+	return StringToRoom(paths, antFarm)
 }
 
 func RangePaths(Paths [][]string) {
@@ -80,13 +81,15 @@ func RangePaths(Paths [][]string) {
 	}
 }
 
-func StringToRoom(Paths [][]string, Rooms map[string]model.Room) []model.Path {
+func StringToRoom(Paths [][]string, antFarm model.AntFarm) []model.Path {
 	var PathsRoom []model.Path
 
 	for _, path := range Paths {
 		_rooms := []model.Room{}
 		for _, room := range path {
-			_rooms = append(_rooms, Rooms[room])
+			if room != antFarm.Start.Name {
+				_rooms = append(_rooms, antFarm.Rooms[room])
+			}
 		}
 		PathsRoom = append(PathsRoom, model.Path{Rooms: _rooms})
 	}
