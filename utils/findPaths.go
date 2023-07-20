@@ -19,10 +19,12 @@ func FindPaths(antFarm model.AntFarm) []model.Path {
 
 			// Check if newPath shares any room with existing paths
 			newPathHasSharedRoom := false
-			for _, existingPath := range paths {
+			matchingPathIndex := 0
+			for i, existingPath := range paths {
 				for _, room := range newPath {
 					if room != antFarm.Start.Name && room != antFarm.End.Name && contains(existingPath, room) {
 						newPathHasSharedRoom = true
+						matchingPathIndex = i
 						break
 					}
 				}
@@ -34,6 +36,8 @@ func FindPaths(antFarm model.AntFarm) []model.Path {
 			// Only append newPath if it does not share any room with existing paths
 			if !newPathHasSharedRoom {
 				paths = append(paths, newPath)
+			} else if len(path[matchingPathIndex]) > len(newPath) {
+				paths[matchingPathIndex] = newPath
 			}
 		} else {
 			for _, tunnel := range antFarm.Links {

@@ -57,7 +57,7 @@ func MoveAnts(paths []model.Path, numberOfAnts int) {
 		}
 
 		fmt.Println(moves)
-		fmt.Println("🐜🐜 We have :", len(strings.Split(moves, "\n"))-1, " turns")
+		fmt.Println("🐜🐜 We have :", len(strings.Split(moves, "\n"))-1, "turns")
 	} else {
 		fmt.Println("There is no path")
 	}
