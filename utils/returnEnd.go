@@ -17,12 +17,12 @@ func ReturnEnd(tab []string) (model.Room, error) {
 
 					return response, nil
 				} else {
-					return response, errors.New("invalid syntax")
+					return response, errors.New("ERROR: invalid data format, no end room found")
 				}
 			}
 		}
 	}
-	return response, errors.New("empty table")
+	return response, errors.New("ERROR: invalid data format, no end room found")
 }
 
 func MapEnd(s string) model.Room {

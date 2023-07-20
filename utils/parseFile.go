@@ -29,14 +29,11 @@ func ParseFile(fileName string) (int, model.AntFarm, bool) {
 		return 0, model.AntFarm{}, true
 	}
 	_numberOfAnts := lines[0]
-	if _numberOfAnts == "0" {
-		fmt.Println("No Ant")
-		return 0, model.AntFarm{}, true
-	}
+	
 
 	numberOfAnts, err := strconv.Atoi(_numberOfAnts)
-	if err != nil {
-		fmt.Println(err)
+	if err != nil || numberOfAnts <= 0 {
+		fmt.Println("ERROR: invalid data format, invalid number of Ants")
 		return 0, model.AntFarm{}, true
 	}
 

@@ -14,15 +14,14 @@ func ReturnStart(tab []string) (model.Room, error) {
 			if tab[i] == "##start" {
 				if i+1 != len(tab) {
 					response = MapStart(tab[i+1])
-
 					return response, nil
 				} else {
-					return response, errors.New("invalid syntax")
+					return response, errors.New("ERROR: invalid data format, no start room found")
 				}
 			}
 		}
 	}
-	return response, errors.New("empty table")
+	return response, errors.New("ERROR: invalid data format, no start room found")
 }
 
 func MapStart(s string) model.Room {

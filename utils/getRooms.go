@@ -20,13 +20,13 @@ func GetRooms(tab []string, start model.Room, end model.Room) (map[string]model.
 						tabFinal[room.Name] = room
 					}
 				} else {
-					return tabFinal, errors.New("error syntax, room syntax wrong")
+					return tabFinal, errors.New("ERROR: invalid data format, Room bad formatted")
 				}
 			}
 		}
 		return tabFinal, nil
 	}
-	return tabFinal, errors.New("empty file")
+	return tabFinal, errors.New("ERROR: invalid data format, Room bad formatted")
 }
 
 func IsRoom(s string) bool {
