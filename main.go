@@ -13,6 +13,7 @@ func main() {
 			return
 		}
 		paths := utils.FindPaths(antFarm)
+		
 		utils.MoveAnts(paths, numberOfAnts)
 	}
 }
