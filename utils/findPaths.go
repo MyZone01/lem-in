@@ -21,7 +21,7 @@ func FindPaths(antFarm model.AntFarm) []model.Path {
 			newPathHasSharedRoom := false
 			for _, existingPath := range paths {
 				for _, room := range newPath {
-					if contains(existingPath, room) {
+					if room != antFarm.Start.Name && room != antFarm.End.Name && contains(existingPath, room) {
 						newPathHasSharedRoom = true
 						break
 					}
@@ -55,7 +55,7 @@ func FindPaths(antFarm model.AntFarm) []model.Path {
 // Contains checks if a slice contains a string
 func contains(slice []string, str string) bool {
 	for _, item := range slice {
-		if item != "start" && item != "end" && item == str {
+		if item == str {
 			return true
 		}
 	}
