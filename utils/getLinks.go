@@ -7,7 +7,6 @@ import (
 )
 
 func GetLink(tab []string) ([]model.Link, error) {
-
 	if len(tab) > 0 {
 		var tabFinal []model.Link
 		for i := 0; i < len(tab); i++ {
