@@ -48,6 +48,12 @@ func ParseFile(fileName string) (int, model.AntFarm, bool) {
 		return 0, model.AntFarm{}, true
 	}
 
+	//Check Start and End
+	if !CheckStartEndRoom(lines) {
+		fmt.Println("ERROR: invalid data format, Too many Start or End Room")
+		return 0, model.AntFarm{}, true
+	}
+
 	links, err2 := GetLink(lines)
 
 	if err2 != nil {

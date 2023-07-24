@@ -34,13 +34,19 @@ func IsRoom(s string) bool {
 	return len(ss) == 3
 }
 
+
 func IsValidRoom(s string) bool {
 	ss := strings.Split(s, " ")
 	if len(ss) == 3 {
 		_, err1 := strconv.Atoi(ss[1])
 		_, err2 := strconv.Atoi(ss[2])
 
+
 		if err1 != nil || err2 != nil {
+			return false
+		}
+
+		if strings.EqualFold(string(ss[0][0]), "L") ||  strings.EqualFold(string(ss[0][0]), "#") {
 			return false
 		}
 
