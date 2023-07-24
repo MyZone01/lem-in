@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"lemin/model"
-	"log"
 	"os"
 	"strconv"
 )
@@ -12,7 +11,7 @@ import (
 func ParseFile(fileName string) (int, model.AntFarm, bool) {
 	readFile, err := os.Open(fileName)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Cannot find the file specified.")
 	}
 
 	fileScanner := bufio.NewScanner(readFile)

@@ -25,12 +25,12 @@ func GetLink(tab []string) ([]model.Link, error) {
 
 func IsValid(s string) bool {
 	ss := strings.Split(s, "-")
-	return ss[0] != ss[1]
+	return ss[0] != ss[1] && len(ss) == 2
 }
 
 func IsLink(s string) bool {
 	ss := strings.Split(s, "-")
-	return len(ss) == 2
+	return len(ss) == 2 
 }
 
 func Mapping(s string) model.Link {

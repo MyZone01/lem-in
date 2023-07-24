@@ -30,13 +30,13 @@ func GetRooms(tab []string, start model.Room, end model.Room) (map[string]model.
 }
 
 func IsRoom(s string) bool {
-	ss := strings.Split(s, " ")
+	ss := strings.Fields(s)
 	return len(ss) == 3
 }
 
 
 func IsValidRoom(s string) bool {
-	ss := strings.Split(s, " ")
+	ss := strings.Fields(s)
 	if len(ss) == 3 {
 		_, err1 := strconv.Atoi(ss[1])
 		_, err2 := strconv.Atoi(ss[2])
@@ -57,7 +57,7 @@ func IsValidRoom(s string) bool {
 }
 
 func MappingRooms(s string) model.Room {
-	ss := strings.Split(s, " ")
+	ss := strings.Fields(s)
 
 	data := model.Room{
 		Name: ss[0],
