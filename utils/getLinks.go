@@ -9,18 +9,24 @@ import (
 func GetLink(tab []string) ([]model.Link, error) {
 	if len(tab) > 0 {
 		var tabFinal []model.Link
+		
 		for i := 0; i < len(tab); i++ {
 			if IsLink(tab[i]) {
 				if IsValid(tab[i]) {
 					tabFinal = append(tabFinal, Mapping(tab[i]))
+					
 				} else {
-					return nil, errors.New("invalid syntax, bad format tunnel")
+					return nil, errors.New("ERROR: invalid syntax, bad format tunnel")
 				}
 			}
 		}
-		return tabFinal, nil
+		if CheckLinkIsUnique(tabFinal) {
+			return tabFinal, nil
+		} else {
+			return tabFinal, errors.New("ERROR: Link must be unique")
+		}
 	}
-	return nil, errors.New("empty table")
+	return nil, errors.New("ERROR: empty table")
 }
 
 func IsValid(s string) bool {
@@ -31,6 +37,17 @@ func IsValid(s string) bool {
 func IsLink(s string) bool {
 	ss := strings.Split(s, "-")
 	return len(ss) == 2 
+}
+
+func CheckLinkIsUnique(tab []model.Link) bool {
+	for i, _ := range tab {
+		for j, _ := range tab {
+			if ((tab[i].From == tab[j].From && tab[i].To == tab[j].To) || (tab[i].To == tab[j].From && tab[i].From == tab[j].To)) && i != j {
+				return false
+			}
+		}
+	}
+	return true
 }
 
 func Mapping(s string) model.Link {
