@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"lemin/model"
 	"strings"
 )
@@ -30,7 +31,8 @@ func ReturnEnd(tab []string) (model.Room, error) {
 func MapEnd(s string) model.Room {
 	tab := model.Room{}
 	if len(s) > 0 {
-		ss := strings.Split(s, " ")
+		ss := strings.Fields(s)
+		fmt.Println(ss)
 
 		if len(ss) == 3 {
 			tab := model.Room{

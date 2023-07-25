@@ -18,6 +18,8 @@ func GetLink(tab []string) ([]model.Link, error) {
 				} else {
 					return nil, errors.New("ERROR: invalid syntax, bad format tunnel")
 				}
+			} else if !IsRoom(tab[i]) && tab[i] != "##start" && tab[i] != "##end" && string(tab[i][0]) != "#" {
+					return nil, errors.New("ERROR: invalid syntax, bad format")
 			}
 		}
 		if CheckLinkIsUnique(tabFinal) {
@@ -31,7 +33,10 @@ func GetLink(tab []string) ([]model.Link, error) {
 
 func IsValid(s string) bool {
 	ss := strings.Split(s, "-")
-	return ss[0] != ss[1] && len(ss) == 2
+	if len(ss) == 2 {
+		return ss[0] != ss[1] 
+	}
+	return false
 }
 
 func IsLink(s string) bool {
@@ -52,6 +57,9 @@ func CheckLinkIsUnique(tab []model.Link) bool {
 
 func Mapping(s string) model.Link {
 	ss := strings.Split(s, "-")
+
+	ss[0] = strings.Trim(ss[0], " ")
+	ss[1] = strings.Trim(ss[1], " ")
 
 	data := model.Link {
 		From: ss[0],

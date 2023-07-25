@@ -53,7 +53,7 @@ func ParseFile(fileName string) (int, model.AntFarm, bool) {
 		return 0, model.AntFarm{}, true
 	}
 
-	links, err2 := GetLink(lines)
+	links, err2 := GetLink(lines[1:])
 
 	if err2 != nil {
 		fmt.Println(err2)
