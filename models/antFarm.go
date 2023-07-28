@@ -1,4 +1,4 @@
-package model
+package models
 
 type AntFarm struct {
 	Start Room
