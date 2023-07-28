@@ -63,3 +63,12 @@ func StringToRoom(Paths [][]string, antFarm models.AntFarm) []models.Path {
 	}
 	return PathsRoom
 }
+
+func haveDuplicate(Link models.Link, links []models.Link) bool {
+	for _, _link := range links {
+		if (_link.From == Link.From && _link.To == Link.To) || (_link.To == Link.From && _link.From == Link.To) {
+			return true
+		}
+	}
+	return false
+}

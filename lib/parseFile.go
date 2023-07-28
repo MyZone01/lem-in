@@ -97,12 +97,14 @@ func GetAntFarmInfos(lines []string) (models.AntFarm, error) {
 					if strings.Contains(line, "-") {
 						link, err := GetLink(line)
 						if err {
-							return antFarm, errors.New("ERROR: invalid data format, Room bad formatted")
+							return antFarm, errors.New("ERROR: invalid data format, link bad formatted")
 						}
 						_, fromExist := allRooms[link.From]
 						_, toExist := allRooms[link.To]
 						if fromExist && toExist {
-							antFarm.Links = append(antFarm.Links, link)
+							if !haveDuplicate(link, antFarm.Links) {
+								antFarm.Links = append(antFarm.Links, link)
+							}
 						} else {
 							return antFarm, errors.New("ERROR: invalid data format, Link bad formatted")
 						}
