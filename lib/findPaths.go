@@ -1,10 +1,10 @@
-package utils
+package lib
 
 import (
-	"lemin/model"
+	"lemin/models"
 )
 
-func FindPaths(antFarm model.AntFarm) []model.Path {
+func FindPaths(antFarm models.AntFarm) []models.Path {
 	visited := make(map[string]bool)
 	paths := [][]string{}
 
@@ -52,7 +52,7 @@ func FindPaths(antFarm model.AntFarm) []model.Path {
 	}
 
 	findPathsRecursive(antFarm.Start.Name, []string{})
-	RangePaths(paths)
+	SortPaths(paths)
 	return StringToRoom(paths, antFarm)
 }
 

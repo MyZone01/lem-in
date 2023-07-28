@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"lemin/model"
-	"lemin/utils"
+	"lemin/lib"
+	"lemin/models"
 	"reflect"
 	"testing"
 )
@@ -14,24 +14,24 @@ func TestParseFile(t *testing.T) {
 		fileName    string
 		wantAnts    int
 		wantErr     bool
-		wantAntFarm model.AntFarm
+		wantAntFarm models.AntFarm
 	}{
 		{
 			name:     "Test file with valid input",
 			fileName: "./samples/testfile1",
 			wantAnts: 10,
 			wantErr:  false,
-			wantAntFarm: model.AntFarm{
-				Start: model.Room{Name: "A", X: "1", Y: "0"},
-				End:   model.Room{Name: "E", X: "0", Y: "3"},
-				Rooms: map[string]model.Room{
+			wantAntFarm: models.AntFarm{
+				Start: models.Room{Name: "A", X: "1", Y: "0"},
+				End:   models.Room{Name: "E", X: "0", Y: "3"},
+				Rooms: map[string]models.Room{
 					"A": {Name: "A", X: "1", Y: "0"},
 					"B": {Name: "B", X: "0", Y: "1"},
 					"C": {Name: "C", X: "2", Y: "1"},
 					"D": {Name: "D", X: "1", Y: "2"},
 					"E": {Name: "E", X: "0", Y: "3"},
 				},
-				Links: []model.Link{
+				Links: []models.Link{
 					{From: "A", To: "B"},
 					{From: "A", To: "C"},
 					{From: "B", To: "D"},
@@ -63,16 +63,16 @@ func TestParseFile(t *testing.T) {
 			fileName: "./samples/testfile5",
 			wantAnts: 0,
 			wantErr:  true,
-			wantAntFarm: model.AntFarm{
-				Start: model.Room{Name: "A", X: "1", Y: "0"},
-				End:   model.Room{Name: "D", X: "1", Y: "2"},
-				Rooms: map[string]model.Room{
+			wantAntFarm: models.AntFarm{
+				Start: models.Room{Name: "A", X: "1", Y: "0"},
+				End:   models.Room{Name: "D", X: "1", Y: "2"},
+				Rooms: map[string]models.Room{
 					"A": {Name: "A", X: "1", Y: "0"},
 					"B": {Name: "B", X: "0", Y: "1"},
 					"C": {Name: "C", X: "2", Y: "1"},
 					"D": {Name: "D", X: "1", Y: "2"},
 				},
-				Links: []model.Link{
+				Links: []models.Link{
 					{From: "A", To: "B"},
 					{From: "B", To: "C"},
 					{From: "C", To: "A"},
@@ -97,10 +97,10 @@ func TestParseFile(t *testing.T) {
 			fileName: "./samples/testfile8",
 			wantAnts: 0,
 			wantErr:  true,
-			wantAntFarm: model.AntFarm{
-				Start: model.Room{Name: "A", X: "1", Y: "0"},
-				End:   model.Room{Name: "G", X: "6", Y: "1"},
-				Rooms: map[string]model.Room{
+			wantAntFarm: models.AntFarm{
+				Start: models.Room{Name: "A", X: "1", Y: "0"},
+				End:   models.Room{Name: "G", X: "6", Y: "1"},
+				Rooms: map[string]models.Room{
 					"A": {Name: "A", X: "1", Y: "0"},
 					"B": {Name: "B", X: "0", Y: "1"},
 					"C": {Name: "C", X: "2", Y: "1"},
@@ -109,7 +109,7 @@ func TestParseFile(t *testing.T) {
 					"F": {Name: "F", X: "5", Y: "0"},
 					"G": {Name: "G", X: "6", Y: "1"},
 				},
-				Links: []model.Link{
+				Links: []models.Link{
 					{From: "A", To: "B"},
 					{From: "B", To: "C"},
 					{From: "C", To: "D"},
@@ -138,7 +138,7 @@ func TestParseFile(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			t.Log(test.name)
-			gotAnts, gotAntFarm, _, gotErr := utils.ParseFile(test.fileName)
+			gotAnts, gotAntFarm, _, gotErr := lib.ParseFile(test.fileName)
 			_gotAntFarm := fmt.Sprintf("%v", gotAntFarm)
 			_wantAntFarm := fmt.Sprintf("%v", test.wantAntFarm)
 
@@ -164,27 +164,27 @@ func TestParseFile(t *testing.T) {
 func TestFindPaths(t *testing.T) {
 	tests := []struct {
 		name      string
-		antFarm   model.AntFarm
-		wantPaths []model.Path
+		antFarm   models.AntFarm
+		wantPaths []models.Path
 	}{
 		{
 			name: "Single path",
-			antFarm: model.AntFarm{
-				Start: model.Room{Name: "A"},
-				End:   model.Room{Name: "C"},
-				Rooms: map[string]model.Room{
+			antFarm: models.AntFarm{
+				Start: models.Room{Name: "A"},
+				End:   models.Room{Name: "C"},
+				Rooms: map[string]models.Room{
 					"A": {Name: "A"},
 					"B": {Name: "B"},
 					"C": {Name: "C"},
 				},
-				Links: []model.Link{
+				Links: []models.Link{
 					{From: "A", To: "B"},
 					{From: "B", To: "C"},
 				},
 			},
-			wantPaths: []model.Path{
+			wantPaths: []models.Path{
 				{
-					Rooms: []model.Room{
+					Rooms: []models.Room{
 						{Name: "A"},
 						{Name: "B"},
 						{Name: "C"},
@@ -194,32 +194,32 @@ func TestFindPaths(t *testing.T) {
 		},
 		{
 			name: "Multiple paths",
-			antFarm: model.AntFarm{
-				Start: model.Room{Name: "A"},
-				End:   model.Room{Name: "C"},
-				Rooms: map[string]model.Room{
+			antFarm: models.AntFarm{
+				Start: models.Room{Name: "A"},
+				End:   models.Room{Name: "C"},
+				Rooms: map[string]models.Room{
 					"A": {Name: "A"},
 					"B": {Name: "B"},
 					"C": {Name: "C"},
 					"D": {Name: "D"},
 				},
-				Links: []model.Link{
+				Links: []models.Link{
 					{From: "A", To: "B"},
 					{From: "B", To: "C"},
 					{From: "A", To: "D"},
 					{From: "D", To: "C"},
 				},
 			},
-			wantPaths: []model.Path{
+			wantPaths: []models.Path{
 				{
-					Rooms: []model.Room{
+					Rooms: []models.Room{
 						{Name: "A"},
 						{Name: "B"},
 						{Name: "C"},
 					},
 				},
 				{
-					Rooms: []model.Room{
+					Rooms: []models.Room{
 						{Name: "A"},
 						{Name: "D"},
 						{Name: "C"},
@@ -229,41 +229,41 @@ func TestFindPaths(t *testing.T) {
 		},
 		{
 			name: "No path",
-			antFarm: model.AntFarm{
-				Start: model.Room{Name: "A"},
-				End:   model.Room{Name: "C"},
-				Rooms: map[string]model.Room{
+			antFarm: models.AntFarm{
+				Start: models.Room{Name: "A"},
+				End:   models.Room{Name: "C"},
+				Rooms: map[string]models.Room{
 					"A": {Name: "A"},
 					"B": {Name: "B"},
 					"C": {Name: "C"},
 				},
-				Links: []model.Link{
+				Links: []models.Link{
 					{From: "A", To: "B"},
 				},
 			},
-			wantPaths: []model.Path{},
+			wantPaths: []models.Path{},
 		},
 		{
 			name: "Multiple paths but one already visited",
-			antFarm: model.AntFarm{
-				Start: model.Room{Name: "A"},
-				End:   model.Room{Name: "C"},
-				Rooms: map[string]model.Room{
+			antFarm: models.AntFarm{
+				Start: models.Room{Name: "A"},
+				End:   models.Room{Name: "C"},
+				Rooms: map[string]models.Room{
 					"A": {Name: "A"},
 					"B": {Name: "B"},
 					"C": {Name: "C"},
 					"D": {Name: "D"},
 				},
-				Links: []model.Link{
+				Links: []models.Link{
 					{From: "A", To: "B"},
 					{From: "B", To: "C"},
 					{From: "A", To: "D"},
 					{From: "D", To: "C"},
 				},
 			},
-			wantPaths: []model.Path{
+			wantPaths: []models.Path{
 				{
-					Rooms: []model.Room{
+					Rooms: []models.Room{
 						{Name: "A"},
 						{Name: "B"},
 						{Name: "C"},
@@ -273,26 +273,26 @@ func TestFindPaths(t *testing.T) {
 		},
 		{
 			name: "Multiple rooms but no path",
-			antFarm: model.AntFarm{
-				Start: model.Room{Name: "A"},
-				End:   model.Room{Name: "C"},
-				Rooms: map[string]model.Room{
+			antFarm: models.AntFarm{
+				Start: models.Room{Name: "A"},
+				End:   models.Room{Name: "C"},
+				Rooms: map[string]models.Room{
 					"A": {Name: "A"},
 					"B": {Name: "B"},
 					"C": {Name: "C"},
 				},
-				Links: []model.Link{
+				Links: []models.Link{
 					{From: "A", To: "B"},
 					{From: "B", To: "B"},
 				},
 			},
-			wantPaths: []model.Path{},
+			wantPaths: []models.Path{},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotPaths := utils.FindPaths(tt.antFarm); !reflect.DeepEqual(gotPaths, tt.wantPaths) {
+			if gotPaths := lib.FindPaths(tt.antFarm); !reflect.DeepEqual(gotPaths, tt.wantPaths) {
 				t.Errorf("FindPaths() = %v, want %v", gotPaths, tt.wantPaths)
 			}
 		})

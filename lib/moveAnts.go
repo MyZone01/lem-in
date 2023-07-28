@@ -1,8 +1,8 @@
-package utils
+package lib
 
 import (
 	"fmt"
-	"lemin/model"
+	"lemin/models"
 	"strings"
 )
 
@@ -11,13 +11,13 @@ type antPosition struct {
 	roomIdx int
 }
 
-func MoveAnts(paths []model.Path, numberOfAnts int) {
+func MoveAnts(paths []models.Path, numberOfAnts int) {
 	if len(paths) != 0 {
 		currentPath := 0
 		antPositions := make(map[string]*antPosition)
 		for i := 0; i < numberOfAnts; i++ {
 			nextPath := (currentPath + 1) % len(paths)
-			ant := model.Ant{
+			ant := models.Ant{
 				Name: fmt.Sprintf("%d", i+1),
 			}
 			currentPathValue := len(paths[currentPath].Ants) + len(paths[currentPath].Rooms)
