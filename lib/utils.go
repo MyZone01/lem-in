@@ -7,7 +7,7 @@ import (
 )
 
 func GetRoom(s string) (models.Room, bool) {
-	ss := strings.Split(s, " ")
+	ss := strings.Fields(s)
 	room := models.Room{}
 	if len(ss) == 3 {
 		_, err1 := strconv.Atoi(ss[1])

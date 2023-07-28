@@ -1,24 +1,37 @@
 package lib
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"lemin/models"
-	"log"
 	"os"
 	"strconv"
 	"strings"
 )
 
 func ParseFile(fileName string) (int, models.AntFarm, string, bool) {
-	_fileContent, err := os.ReadFile(fileName)
-	if err != nil {
-		log.Fatal(err)
+
+	file, err := os.Open(fileName)
+		if err != nil {
+			fmt.Println("File Not Found")
+			return 0, models.AntFarm{}, "", true
+		}
+	fileScanner := bufio.NewScanner(file)
+	fileScanner.Split(bufio.ScanLines)
+
+	var lines []string
+	fileContent := ""
+
+	for fileScanner.Scan() {
+		str := strings.TrimRight(fileScanner.Text(), " ")
+		str = strings.TrimLeft(str, " ")
+		lines = append(lines, str)
+		fileContent += fileScanner.Text() + "\n"
 	}
-	fileContent := string(_fileContent)
-	lines := strings.Split(fileContent, "\n")
+
 	if len(lines) <= 0 {
-		return 0, models.AntFarm{}, "", true
+	 	return 0, models.AntFarm{}, "", true
 	}
 
 	_numberOfAnts := lines[0]
