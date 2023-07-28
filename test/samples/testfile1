@@ -1,0 +1,13 @@
+10
+##start
+A 1 0
+B 0 1
+C 2 1
+D 1 2
+##end
+E 0 3
+A-B
+A-C
+B-D
+C-D
+D-E

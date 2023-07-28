@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"lemin/model"
 	"lemin/utils"
 	"reflect"
@@ -47,7 +48,7 @@ func TestParseFile(t *testing.T) {
 		},
 		{
 			name:     "Test file with invalid data",
-			fileName: "testfile3",
+			fileName: "./samples/testfile3",
 			wantAnts: 0,
 			wantErr:  true,
 		},
@@ -134,22 +135,27 @@ func TestParseFile(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			gotAnts, gotAntFarm, gotErr := utils.ParseFile(tt.fileName)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Log(test.name)
+			gotAnts, gotAntFarm, _, gotErr := utils.ParseFile(test.fileName)
+			_gotAntFarm := fmt.Sprintf("%v", gotAntFarm)
+			_wantAntFarm := fmt.Sprintf("%v", test.wantAntFarm)
 
-			if gotErr != tt.wantErr {
-				t.Errorf("ParseFile() error = %v, wantErr %v", gotErr, tt.wantErr)
-				return
-			}
-			
-			if gotAnts != tt.wantAnts {
-				t.Errorf("ParseFile() gotAnts = %v, wantAnts %v", gotAnts, tt.wantAnts)
+			if gotErr != test.wantErr {
+				t.Errorf("❌ ParseFile() error = %v, wantErr %v", gotErr, test.wantErr)
 				return
 			}
 
-			if reflect.DeepEqual(gotAntFarm, tt.wantAntFarm) {
-				t.Errorf("ParseFile() gotAntFarm = %v, wantAntFarm %v", gotAntFarm, tt.wantAntFarm)
+			if gotAnts != test.wantAnts {
+				t.Errorf("❌ ParseFile() gotAnts = %v, wantAnts %v", gotAnts, test.wantAnts)
+				return
+			}
+
+			if _gotAntFarm != _wantAntFarm {
+				t.Errorf("❌ ParseFile() gotAntFarm = %v, wantAntFarm %v", gotAntFarm, test.wantAntFarm)
+			} else {
+				t.Log("✅ ", test.name, " Succeeded")
 			}
 		})
 	}

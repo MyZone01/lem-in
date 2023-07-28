@@ -1,0 +1,18 @@
+10
+##start
+A 1 0
+B 0 1
+C 2 1
+D 3 2
+E 4 1
+F 5 0
+##end
+G 6 1
+A-B
+B-C
+C-D
+D-E
+E-F
+F-G
+B-D
+D-G
