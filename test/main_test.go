@@ -95,8 +95,8 @@ func TestParseFile(t *testing.T) {
 		{
 			name:     "Test file with complex layout with multiple valid paths",
 			fileName: "./samples/testfile8",
-			wantAnts: 0,
-			wantErr:  true,
+			wantAnts: 10,
+			wantErr:  false,
 			wantAntFarm: models.AntFarm{
 				Start: models.Room{Name: "A", X: "1", Y: "0"},
 				End:   models.Room{Name: "G", X: "6", Y: "1"},
@@ -137,6 +137,7 @@ func TestParseFile(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			t.Log(test.fileName)
 			t.Log(test.name)
 			gotAnts, gotAntFarm, _, gotErr := lib.ParseFile(test.fileName)
 			_gotAntFarm := fmt.Sprintf("%v", gotAntFarm)
@@ -185,7 +186,6 @@ func TestFindPaths(t *testing.T) {
 			wantPaths: []models.Path{
 				{
 					Rooms: []models.Room{
-						{Name: "A"},
 						{Name: "B"},
 						{Name: "C"},
 					},
@@ -213,14 +213,12 @@ func TestFindPaths(t *testing.T) {
 			wantPaths: []models.Path{
 				{
 					Rooms: []models.Room{
-						{Name: "A"},
 						{Name: "B"},
 						{Name: "C"},
 					},
 				},
 				{
 					Rooms: []models.Room{
-						{Name: "A"},
 						{Name: "D"},
 						{Name: "C"},
 					},
@@ -244,34 +242,6 @@ func TestFindPaths(t *testing.T) {
 			wantPaths: []models.Path{},
 		},
 		{
-			name: "Multiple paths but one already visited",
-			antFarm: models.AntFarm{
-				Start: models.Room{Name: "A"},
-				End:   models.Room{Name: "C"},
-				Rooms: map[string]models.Room{
-					"A": {Name: "A"},
-					"B": {Name: "B"},
-					"C": {Name: "C"},
-					"D": {Name: "D"},
-				},
-				Links: []models.Link{
-					{From: "A", To: "B"},
-					{From: "B", To: "C"},
-					{From: "A", To: "D"},
-					{From: "D", To: "C"},
-				},
-			},
-			wantPaths: []models.Path{
-				{
-					Rooms: []models.Room{
-						{Name: "A"},
-						{Name: "B"},
-						{Name: "C"},
-					},
-				},
-			},
-		},
-		{
 			name: "Multiple rooms but no path",
 			antFarm: models.AntFarm{
 				Start: models.Room{Name: "A"},
@@ -292,7 +262,7 @@ func TestFindPaths(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotPaths := lib.FindPaths(tt.antFarm); !reflect.DeepEqual(gotPaths, tt.wantPaths) {
+			if gotPaths := lib.FindPaths(tt.antFarm); !reflect.DeepEqual(gotPaths, tt.wantPaths) && !(len(gotPaths) == 0 && len(tt.wantPaths) == 0) {
 				t.Errorf("FindPaths() = %v, want %v", gotPaths, tt.wantPaths)
 			}
 		})

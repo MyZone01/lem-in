@@ -34,6 +34,11 @@ func ParseFile(fileName string) (int, models.AntFarm, string, bool) {
 		return 0, models.AntFarm{}, "", true
 	}
 
+	if antFarm.Start.Name == "" || antFarm.End.Name == "" {
+		fmt.Println("ERROR: invalid data format, Missing start or end room")
+		return 0, models.AntFarm{}, "", true
+	}
+
 	return numberOfAnts, antFarm, fileContent, false
 }
 
