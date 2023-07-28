@@ -50,10 +50,10 @@ Key functions:
 
 
 ##  AUTHORS
-+   Pape Alassane Ba
-+   Pape Gondia Gueye
-+   Louis Sébastien Malack
-+   Serigne Saliou Mbacké Mbaye
++   [@pba](https://learn.zone01dakar.sn/git/pba)
++   [@papgueye](https://learn.zone01dakar.sn/git/papgueye)
++   [@lomalack](https://learn.zone01dakar.sn/git/lomalack)
++   [@serignmbaye](https://learn.zone01dakar.sn/git/serignmbaye)
 
 ## LIVESHARE LINK
 https://prod.liveshare.vsengsaas.visualstudio.com/join?50A8CA4313BB2D1694205170CDFCC8FF587F
